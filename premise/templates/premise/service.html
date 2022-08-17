@@ -1,0 +1,37 @@
+{% extends "tour/main.html" %}
+{% block title %}
+{% if object %}
+Edit Service "{{ object.name }}"
+{% else %}
+Create a new service
+{% endif %}
+{% endblock %}
+{% block content %}
+<h1 style="text-align: center">
+{% if object %}
+Edit Service "{{ object.name }}"
+{% else %}
+Add new service
+{% endif %}
+</h1>
+<div class="module">
+
+<form action="." method="post" enctype="multipart/form-data">
+    <div class="grid-container">
+        <h2>Service info</h2>
+      <table style="background-color: grey">
+            {{ form.media }}
+          {{ form.media.js }}
+{{ form.as_table }}
+      </table>
+          <button type="submit" class="primary button expanded search-button">
+      Save Service
+    </button>
+
+
+    </div>
+{% csrf_token %}
+
+</form>
+</div>
+{% endblock %}

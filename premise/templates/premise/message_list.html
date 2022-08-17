@@ -1,0 +1,67 @@
+{% extends 'tour/main.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    Messages
+    {% endblock %}
+{% block body_block %}
+
+{% block content %}
+<h5 class="center" style=" margin-top: 1.5%; margin-bottom: 0.001%; font-family: 'Oswald',Bold; font-size: 40px; text-align: center; color: darkred">My Messages</h5>
+{% if texts %}
+   <h5>{{ texts.count }} Messages{{ texts|pluralize }}</h5>
+<table>
+<thead>
+<tr style="font-family: Oswald, bold; color: darkblue">
+    <th width="100">Property</th>
+    <th width="50">Name</th>
+    <th width="50">Phone</th>
+    <th width="50">Email</th>
+    <th width="50">Message</th>
+
+
+</tr>
+
+</thead>
+<tbody>
+{% for text in texts %}
+<tr>
+  <td width="100">{{ text.premise }}</td>
+<td>{{ text.name|capfirst }}</td>
+<td>{{ text.phone }}</td>
+<td>{{ text.email }}</td>
+<td>{{ text.message }}</td>
+
+</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% else %}
+<h5 style="text-align: center">Your don't have any messages yet</h5>
+{% endif %}
+
+
+
+     {% if texts.has_other_pages %}
+    <ul class="pagination-pointed pagination text-center" role="navigation" aria-label="Pagination">
+    {% if texts.has_previous %}
+        <li class="pagination-previous"><a class="pagination-pointed-button" href="?page={{ texts.previous_page_number }}" >Previous <span class="show-for-sr">Page</span></a></li>
+        {% else %}
+  <li class="pagination-previous disabled">Previous <span class="show-for-sr">Page</span></li>
+        {% endif %}
+    {% for i in  texts.paginator.page_range %}
+    {% if texts.number == i %}
+  <li class="current"><span class="show-for-sr">You're on page</span> {{ i }}</li>
+        {% else %}
+  <li><a class="pagination-pointed-button" href="?page={{ i }}" aria-label="Page 2">{{ i }}</a></li>
+  {% endif %}
+    {% endfor %}
+    {% if texts.has_next %}
+  <li class="pagination-next"><a class="pagination-pointed-button" href="?page={{ texts.next_page_number }}" aria-label="Next page">Next <span class="show-for-sr">page</span></a></li>
+        {% endif %}
+</ul>
+    {% endif %}
+
+{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends 'premise/index.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    Search
+    {% endblock %}
+{% block body_block %}
+
+{% block content %}
+
+<div class="hero-section">
+<div class="hero-section-text">
+
+<h1 style="font-family:'Oswald', bold; font-size: 35px; color: #F7444E">Find Your Dream Home</h1>
+
+  <div class="formu">
+
+
+<div class="translucent-form-overlay">
+   <form method="get" action=" {% url 'premise:search' %}">
+
+
+      <div class="grid-x ">
+       {{ filter.form.media }}
+          {{ filter.form.media.js }}
+      <div class="cell large-12 small-12">
+          {{ filter.form.county.label_tag }}
+        {{ filter.form.county }}
+      </div>
+    </div>
+        <div class="grid-x grid-margin-x">
+      <div class="cell large-6 small-6">
+        {{ filter.form.purpose.label_tag }}
+          {{ filter.form.purpose }}
+      </div>
+      <div class="cell large-6 small-6">
+        {{ filter.form.type.label_tag }}
+          {{ filter.form.type }}
+      </div>
+    </div>
+        <div class="grid-x grid-margin-x">
+      <div class="cell large-6 small-6">
+        {{ filter.form.bedrooms.label_tag }}
+          {{ filter.form.bedrooms }}
+      </div>
+      <div class="cell large-6 small-6 medium-12">
+        {{ filter.form.bathrooms.label_tag }}
+          {{ filter.form.bathrooms }}
+      </div>
+    </div>
+
+
+    <div class="grid-x grid-margin-x">
+      <div class="cell large-6 small-6">
+        {{ filter.form.price__gte.label_tag }}
+          {{ filter.form.price__gte }}
+      </div>
+      <div class="cell large-6 small-6">
+        {{ filter.form.price__lte.label_tag }}
+          {{ filter.form.price__lte }}
+      </div>
+    </div>
+    <button type="submit" class="alert button expanded search-button">
+      Find Homes
+    </button>
+ </form>
+</div>
+  </div>
+  </div>
+  </div>
+
+
+
+{% endblock %}
+
+{% endblock %}
+

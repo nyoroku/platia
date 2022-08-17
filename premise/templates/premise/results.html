@@ -1,0 +1,113 @@
+{% extends 'tour/main.html' %}
+{% load staticfiles %}
+{% block title_block %}
+    Properties
+    {% endblock %}
+{% block body_block %}
+
+{% block content %}
+<h5 class="center" style=" margin-top: 1.5%; margin-bottom: 0.001%; font-family: 'Oswald',Bold; font-size: 40px"></h5>
+{% if filter.qs %}
+
+{% if tag %}
+<h2>Property tagged with "{{ tag.name }}"</h2>
+{% endif %}
+
+ <div class="contain">
+<h1 style="font-family: Merriweather, serif; font-weight: bold; font-size: 40px; color: black">{{ total_premises }} home{{ premises|pluralize }} </h1>
+<div class="grid-x grid-margin-x">
+       {% for premise in f %}
+        <div class="cell large-3 small-12 medium-6">
+        <div class="news-card-tag">
+
+  <p class="tags">
+      Tags:
+      {% for tag in premise.tags.all|slice:"3" %}
+          <span class="label"><a href="{% url "premise:allpremises_by_tag" tag.slug %}">{{ tag.name }}</a>
+          </span>
+
+{% if not forloop.last %}, {% endif %}
+{% endfor %}
+</p>
+</div>
+
+<div class="card-flex-article card">
+  <div class="card-image">
+
+      {% if premise.picture %}
+          <a href="{{ premise.get_absolute_url }}"><img src="{{ premise.picture.url }}"></a>
+      {% endif %}
+  {% if premise.sponsored == True %}
+    <span class="label alert card-tag">Top Ad</span>
+  {% endif %}
+  </div>
+  <div class="card-section">
+      <h3 class="article-title">Ksh {{ premise.price }}</h3>
+    <h3 class="article-title">{{ premise.name }}</h3>
+    <div class="article-details">
+      <span class="website">{{ premise.bedrooms }}  bedrooms</span> &#8226;
+     <span class="author">{{ premise.bathrooms }} bathrooms</span> &#8226;
+      <span class="author">{{ premise.size }} sqfts</span>
+    </div>
+    <p class="article-summary">{{ premise.district }}</p>
+  </div>
+
+</div>
+
+
+    </div>
+{% endfor %}
+</div>
+</div>
+{% else %}
+<p>No Property Yet</p>
+{% endif %}
+
+    {% if premises.has_other_pages %}
+    <ul class="pagination-pointed pagination text-center" role="navigation" aria-label="Pagination">
+    {% if premises.has_previous %}
+        <li class="pagination-previous"><a class="pagination-pointed-button" href="?page={{ trips.previous_page_number }}" >Previous <span class="show-for-sr">Page</span></a></li>
+        {% else %}
+  <li class="pagination-previous disabled">Previous <span class="show-for-sr">Page</span></li>
+        {% endif %}
+    {% for i in  premises.paginator.page_range %}
+    {% if premises.number == i %}
+  <li class="current"><span class="show-for-sr">You're on page</span> {{ i }}</li>
+        {% else %}
+  <li><a class="pagination-pointed-button" href="?page={{ i }}" aria-label="Page 2">{{ i }}</a></li>
+  {% endif %}
+    {% endfor %}
+    {% if trips.has_next %}
+  <li class="pagination-next"><a class="pagination-pointed-button" href="?page={{ premises.next_page_number }}" aria-label="Next page">Next <span class="show-for-sr">page</span></a></li>
+        {% endif %}
+</ul>
+    {% endif %}
+    {% if tag.name in tag %}
+        {% if premises.has_other_pages %}
+    <ul class="pagination-pointed pagination text-center" role="navigation" aria-label="Pagination">
+    {% if premises.has_previous %}
+        <li class="pagination-previous"><a class="pagination-pointed-button" href="?page={{ premises.previous_page_number }}" >Previous <span class="show-for-sr">Page</span></a></li>
+        {% else %}
+  <li class="pagination-previous disabled">Previous <span class="show-for-sr">Page</span></li>
+        {% endif %}
+    {% for i in  premises.paginator.page_range %}
+    {% if premises.number == i %}
+  <li class="current"><span class="show-for-sr">You're on page</span> {{ i }}</li>
+        {% else %}
+  <li><a class="pagination-pointed-button" href="?page={{ i }}" aria-label="Page 2">{{ i }}</a></li>
+  {% endif %}
+    {% endfor %}
+    {% if premises.has_next %}
+  <li class="pagination-next"><a class="pagination-pointed-button" href="?page={{ premises.next_page_number }}" aria-label="Next page">Next <span class="show-for-sr">page</span></a></li>
+        {% endif %}
+</ul>
+    {% endif %}
+    {% endif %}
+
+
+
+
+
+{% endblock %}
+
+{% endblock %}

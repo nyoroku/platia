@@ -1,0 +1,419 @@
+{%load i18n staticfiles %}
+<!doctype html>
+<html class="no-js" lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makao-Homes For Everyone</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.4.0/css/foundation-flex.css">
+      <link href="{% static "css/foundation.css" %}" rel="stylesheet">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="{% static "css/app.css" %}" rel="stylesheet">
+    <link href="{% static "fonts/slick.svg" %}" rel="stylesheet">
+	<link href="{% static "fonts/slick.eot" %}" rel="stylesheet">
+	<link href="{% static "fonts/slick.ttf" %}" rel="stylesheet">
+	<link href="{% static "fonts/slick.woff" %}" rel="stylesheet">
+	<link href="{% static "css/slick-theme.css" %}" rel="stylesheet">
+	<link href="{% static "css/" %}" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Chela+One|Coda+Caption:800|Fira+Sans|Gaegu|Hind|Knewave|Lato|Libre+Baskerville|Lora|Markazi+Text|Merienda|Merriweather|Montserrat|Noto+Sans|Noto+Serif|Open+Sans|Open+Sans+Condensed:300|Oswald|PT+Sans|PT+Sans+Narrow|Playfair+Display|Poppins|Raleway|Roboto|Roboto+Condensed|Roboto+Slab|Rubik|Slabo+27px|Source+Sans+Pro|Ubuntu" rel="stylesheet">
+  </head>
+  <body>
+  <div data-sticky-container>
+  <nav class="fixed top-bar topbar-responsive">
+  <div class="top-bar-title">
+    <span data-responsive-toggle="topbar-responsive" data-hide-for="medium">
+      <button class="menu-icon" type="button" data-toggle></button>
+    </span>
+    <a class="topbar-responsive-logo" style="font-family:'Oswald', Bold; font-size: 30px; color: whitesmoke" href="{% url 'index' %}"><strong>Makao</strong></a>
+  </div>
+  <div id="topbar-responsive" class="topbar-responsive-links">
+    <div class="top-bar-right">
+      <ul class="menu simple vertical medium-horizontal">
+      {% if request.user.is_authenticated  %}
+         <li style="font-family:'Oswald', bold; font-size: 20px; color: white"> Welcome {{ user.username|capfirst }}</li>
+    <li style="font-family:'Oswald', bold; font-size: 20px; color: white"> <a href="{% url 'premise:my_save' %}"> My Save</a></li>
+      {% endif %}
+      {% if request.user.is_authenticated and user.is_profile %}
+
+          <li style="font-family:'Oswald', bold; font-size: 20px; color: white"> <a href="{% url 'finders:profile' %}"> My Profile</a></li>
+          <li style="font-family:'Oswald', bold; font-size: 20px; color: white"> <a href="{% url 'premise:dashboard' %}"> My Dashboard</a></li>
+
+      {% endif %}
+
+        <li style="font-family:'Oswald', bold; font-size: 20px; color: black"><a href="{% url 'premise:about' %}">About Us</a></li>
+
+      {% if  not request.user.is_authenticated  %}
+<li style="font-family:'Playfair Display', serif; font-size: 20px; color: black">
+          <a href="{% url 'finders:user_registration' %}"><button type="button" class="button hollow topbar-responsive-button">
+              Sign Up </button></a>
+</li>
+      {% endif %}
+          {% if request.user.is_authenticated %}
+<li style="font-family:'Playfair Display', serif; font-size: 20px; color: black">
+          <a href="{% url 'user_logout' %}"><button type="button" class="button hollow topbar-responsive-button">
+              Logout </button></a>
+</li>
+
+{% else %}
+    <li>
+         <a href="{% url 'user_login' %}"> <button type="button" class="button hollow topbar-responsive-button">
+             Login</button></a>
+</li>
+          {% endif %}
+
+      </ul>
+    </div>
+  </div>
+</nav>
+</div>
+
+  {% block content %}
+  {% endblock %}
+
+    <section style="background-color: #f8e9a1">
+
+<div class="content">
+<div class="wording">
+    {% load type_tag %}
+    {% get_types %}
+<h5 style=" margin-left:25px; font-family:'Oswald', bold; font-size: 25px; color: black; font-weight: bold">Explore Makao</h5>
+</div>
+<div class="grid-x grid-padding-x">
+    {% for type in types %}
+  <div class="cell large-2 small-4 medium-4">
+    <div class="featured-image-block column">
+     <a href="{{ type.get_absolute_url }}">
+         {% if type.picture %}
+    <img src="{{type.picture.url}}">
+                   <p class="text-center featured-image-block-title">{{ type.name }}</p>
+  {% endif %}
+
+      </a>
+    </div>
+  </div>
+    {% endfor %}
+</div>
+
+    </div>
+    </section>
+
+ <div class="content">
+<div class="wording">
+    {% load rent_tags %}
+    {% get_top_rents %}
+<h5 style=" margin-left:25px; font-family:'Oswald', bold; font-size: 25px; color: black; font-weight: bold">Homes For Rent</h5>
+</div>
+
+<div class="multiple-items">
+    {% for premise in top_rents %}
+ <div class="card-flex-article card flex-container">
+ <a href="{{ premise.get_absolute_url }}">
+  <div class="card-image">
+    <img src="{{premise.picture.url}}">
+    {% if premise.sponsored == True %}
+
+    <span class="label alert card-tag">Top Ad</span>
+    {% endif %}
+  </div>
+  <div class="card-section">
+      <h3 class="article-title" style="color: black">Ksh {{premise.price}}</h3>
+    <p class="article-tit" style="font-family: 'Merriweather', serif ;font-size: 16px; color: black">{{premise.name}}</p>
+    <div class="article-details">
+
+
+      <span class="website">{{ premise.bedrooms }}  bd<i class="fa fa-bed " style="color:#002C3E" aria-hidden="true"></i></span> &#8226;
+     <span class="author">{{ premise.bathrooms }} ba <i class="fa fa-bath " style="color:#002C3E" aria-hidden="true"></i></span> &#8226;
+      <span class="author">{{ premise.size }} sqfts </span>
+
+    </div>
+    <p class="article-summary" style="font-family: Merriweather; color: darkgrey">{{ premise.county|capfirst }}</p>
+  </div>
+ </a>
+  </div>
+
+    {% endfor %}
+ </div>
+<div class="show-for-medium">
+    <h1 style=" margin-left:30px; font-family:'Oswald', bold; font-size: 20px; color: #002C3E; opacity: 2.5"><a href="{% url 'premise:rent' %}">See All Homes for Rent <i class="fa fa-chevron-right " style="color:#002C3E" aria-hidden="true"></i></a> </h1>
+</div>
+<div class="show-for-small-only" style="text-align:center">
+<a href="{% url 'premise:rent' %}" class= "hollow button large" style="font-family:'Oswald', bold; font-size: 15px; color: blue">See All For Rent</a>
+</div>
+</div>
+ <div class="content">
+<div class="wording">
+    {% load buy_tags %}
+    {% get_top_buys %}
+<h1 style=" margin-left:25px; font-family:'Oswald', bold; font-size: 25px; color: black; font-weight: bold">Homes For Sell</h1>
+</div>
+
+<div class="multiple-items">
+    {% for premise in top_buys %}
+ <div class="card-flex-article card flex-container">
+ <a href="{{premise.get_absolute_url}}">
+  <div class="card-image">
+    <img src="{{premise.picture.url}}">
+    {% if premise.sponsored == True %}
+
+    <span class="label alert card-tag">Top Ad</span>
+    {% endif %}
+  </div>
+  <div class="card-section">
+      <h3 class="article-title" style="color: black">Ksh {{premise.price}}</h3>
+    <p class="article-tit" style="font-family: 'Merriweather', serif ;font-size: 16px; color: black">{{premise.name}}</p>
+    <div class="article-details">
+
+
+      <span class="website">{{ premise.bedrooms }} <i class="fa fa-bed " style="color:#002C3E" aria-hidden="true"></i> bd</span> &#8226;
+     <span class="author">{{ premise.bathrooms }}<i class="fa fa-bath " style="color:#002C3E" aria-hidden="true"></i> ba </span> &#8226;
+      <span class="author">{{ premise.size }} sqfts </span>
+
+    </div>
+    <p class="article-summary" style="font-family: Merriweather; color: darkgrey">{{ premise.district|capfirst }}</p>
+  </div>
+ </a>
+  </div>
+
+    {% endfor %}
+ </div>
+<div class="show-for-medium">
+    <h1 style=" margin-left:30px; font-family:'Oswald', bold; font-size: 20px; color: #002C3E; opacity: 2.5"><a href="{% url 'premise:buy' %}">See All Homes for Sale <i class="fa fa-chevron-right " style="color:#002C3E" aria-hidden="true"></i></a> </h1>
+</div>
+<div class="show-for-small-only" style="text-align:center">
+<a href="{% url 'premise:buy' %}" class= "hollow button large" style="font-family:'Oswald', bold; font-size: 15px; color: blue">See All Homes For Sale</a>
+</div>
+</div>
+  <div class="content">
+<div class="wording">
+    {% load shortstay_tags %}
+    {% get_top_shortstay %}
+<h5 style=" margin-left:25px; font-family:'Oswald', bold; font-size: 25px; color: black; font-weight: bold">Homes For Short Stay </h5>
+</div>
+
+<div class="multiple-items">
+    {% for premise in top_shortstay %}
+ <div class="card-flex-article card flex-container">
+ <a href="{{premise.get_absolute_url}}">
+  <div class="card-image">
+    <img src="{{premise.picture.url}}">
+    {% if premise.sponsored == True %}
+
+    <span class="label alert card-tag">Top Ad</span>
+    {% endif %}
+  </div>
+  <div class="card-section">
+       <h3 class="article-title" style="color: black">Ksh {{premise.price}}</h3>
+    <p class="article-tit" style="font-family: 'Merriweather', serif ;font-size: 16px; color: black">{{premise.name}}</p>
+    <div class="article-details">
+
+
+      <span class="website">{{ premise.bedrooms }}  <i class="fa fa-bed " style="color:#002C3E" aria-hidden="true"></i>bd</span> &#8226;
+     <span class="author">{{ premise.bathrooms }}<i class="fa fa-bath " style="color:#002C3E" aria-hidden="true"></i> ba </span> &#8226;
+      <span class="author">{{ premise.size }} sqfts </span>
+
+    </div>
+    <p class="article-summary" style="font-family: Merriweather; color: darkgrey">{{ premise.county|capfirst }}</p>
+  </div>
+ </a>
+  </div>
+
+    {% endfor %}
+ </div>
+<div class="show-for-medium">
+    <h1 style=" margin-left:30px; font-family:'Oswald', bold; font-size: 20px; color: #002C3E; opacity: 2.5"><a href="{% url 'premise:shortstay' %}">See Homes for Short Stay <i class="fa fa-chevron-right " style="color:#002C3E" aria-hidden="true"></i></a> </h1>
+</div>
+<div class="show-for-small-only" style="text-align:center">
+<a href="{% url 'premise:shortstay' %}" class= "hollow button large" style="font-family:'Oswald', bold; font-size: 15px; color: blue">See All Homes For Short Stay</a>
+</div>
+</div>
+   <section style="background-color: #f8e9a1">
+
+<div class="content">
+<div class="wording">
+    {% load services_tag %}
+    {% get_category %}
+<h5 style=" margin-left:25px; font-family:'Oswald', bold; font-size: 25px; color: black; font-weight: bold">Find Services</h5>
+</div>
+<div class="grid-x grid-padding-x">
+    {% for category in categories %}
+  <div class="cell large-2 small-6 medium-4">
+    <div class="featured-image-block column">
+     <a href="{{ category.get_absolute_url }}">
+         {% if category.photo %}
+    <img src="{{category.photo.url}}">
+                   <p class="text-center featured-image-block-title">{{ category.name }}</p>
+  {% endif %}
+
+      </a>
+    </div>
+  </div>
+    {% endfor %}
+</div>
+
+    </div>
+    </section>
+
+<div class="article-row-section">
+  <div class="article-row-section-inner">
+ {% load news_tag  %}
+      {% get_latest_news %}
+    <h2 class="article-row-section-header">Property News</h2>
+      {% for new in latest_news %}
+    <a href="{{ new.get_absolute_url }}">
+      <article class="article-row">
+        <div class="article-row-img">
+            {% if new.thumbnail %}
+          <img src="{{ new.thumbnail.url }}" alt="news" />
+            {% endif %}
+        </div>
+        <div class="article-row-content">
+          <h5 class="article-row-content-header" style="font-family: Roboto, Bold; font-size: 25px; color: blue">{{ new.title }}</h5>
+
+          <p class="article-row-content-description">{{ new.summary|truncatewords:10 }}</p>
+
+
+
+        </div>
+      </article>
+    </a>
+      {% endfor %}
+
+  </div>
+
+</div>
+<div style="text-align:center">
+<a href="{% url 'home:allnews' %}" class= "hollow button large">View All News</a>
+</div>
+
+
+
+
+
+ <div id="engadget-footer-social-container">
+    <footer id="engadget-footer-social">
+
+
+        {% if  not request.user.is_authenticated  %}
+        <div class="footer-left">
+		<h1 style="font-family:'Oswald', Bold; font-size: 25px; color: darkblue">Work With Us</h1>
+         <p style="font-family:'Oswald', bold; font-size: 20px; color: white"><a href="{% url 'premise:nicosiabuy' %}">Guidelines</a></p>
+            <p style="font-family:'Oswald', bold; font-size: 20px; color: white"><a href="{% url 'finders:agent_registration' %}">Client SignUp</a></p>
+            <p style="font-family:'Oswald', bold; font-size: 20px; color: white"><a href="{% url 'login' %}">Client Login</a></p>
+
+
+
+
+
+        </div>
+        {% endif %}
+        <div class="footer-right">
+            <h6 style="font-family:'Oswald', bold; font-size: 20px; color: white">Stay Connected</h6>
+            <i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-google-plus-square fa-2x" aria-hidden="true"></i>
+            <i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i>
+        </div>
+    </footer>
+</div>
+
+
+
+    <script src="{% static 'js/vendor/jquery.js' %}"></script>
+    <script src="{% static 'js/vendor/what-input.js' %}"></script>
+    <script src="{% static 'js/vendor/foundation.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+  <script src="{% static 'js/' %}"></script>
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.multiple-items').slick({
+  infinite: false,
+  arrows:true,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+  dots:false,
+       responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 2.2,
+        slidesToScroll: 1,
+        infinite: false,
+        dots: false
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2.2,
+        slidesToScroll: 2
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1.2,
+        slidesToScroll: 1,
+        infinite: false,
+         arrows : false
+
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+
+});
+    });
+  </script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+      $('.deals').slick({
+  infinite: false,
+  arrows:true,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+  dots:false,
+       responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+        infinite: false,
+        dots: true
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2.5,
+        slidesToScroll: 2
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 2.7,
+        slidesToScroll: 1,
+         infinite: false,
+          arrows: false
+
+      }
+    }
+    // You can unslick at a given breakpoint now by adding:
+    // settings: "unslick"
+    // instead of a settings object
+  ]
+
+});
+    });
+  </script>
+  </body>
+</html>

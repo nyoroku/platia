@@ -1,0 +1,32 @@
+{% extends 'tour/main.html' %}
+{% load staticfiles %}
+{% block title %}Dashboard{% endblock %}
+{% block body_block %}
+
+{% block content %}
+    <div class="grid-container">
+<h5 class="center" style=" margin-top: 1.5%; margin-bottom: 0.001%; font-family: 'Oswald',Bold; font-size: 40px; text-align: center; color: darkred">My  listing </h5>
+
+     <table id="vertical" style="width: 75%">
+
+   <tr>
+          <th style="font-family: Oswald ,bold; color: darkblue; padding: 5px; border: 1px solid black;border-collapse: collapse; text-align: left">My property listing</th>
+           <td style="border-collapse: collapse; border: 1px solid black; padding: 5px; text-align: left; width: 50%"> <h5 style="font-family: Merriweather, serif; font-weight: bold; font-size: 15px; color: red; text-align: center">
+<a href="{% url 'premise:property_add'  %}"><i class="fa fa-plus " style="color:#002C3E" aria-hidden="true"></i>Add</a>&#8226;
+    <a href="{% url 'premise:my_list'  %}"><i class="fa fa-pencil " style="color:#002C3E" aria-hidden="true"></i>Change</a>
+</h5></td>
+       </tr>
+   <tr>
+       <tr>
+         <th style="font-family: Oswald ,bold; color: darkblue; padding: 5px; border: 1px solid black;border-collapse: collapse; text-align: left">My services Listing</th>
+           <td style="border-collapse: collapse; border: 1px solid black; padding: 5px; text-align: left; width: 50%"> <h5 style="font-family: Merriweather, serif; font-weight: bold; font-size: 15px; color: red; text-align: center">
+<a href="{% url 'premise:service_add'  %}"><i class="fa fa-plus " style="color:#002C3E" aria-hidden="true"></i> Add</a>&#8226;
+    <a href="{% url 'premise:my_services'  %}"><i class="fa fa-pencil " style="color:#002C3E" aria-hidden="true"></i>Change</a>
+</h5></td>
+       </tr>
+
+
+   </table>
+    </div>
+{% endblock %}
+{% endblock %}

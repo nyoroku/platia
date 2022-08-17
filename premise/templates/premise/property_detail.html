@@ -1,0 +1,147 @@
+{% extends 'tour/main.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="grid-container fluid">
+<div class="grid-x grid-margin-x">
+<div class="cell large-8 small-12 medium-12">
+<div class="fullscreen-image-slider">
+  <div class="orbit" role="region" aria-label="FullScreen Pictures" data-orbit>
+    <ul class="orbit-container">
+
+      <button class="orbit-previous">
+
+        <span class="show-for-sr">Previous Slide</span>
+        <span class="nav fa fa-chevron-left fa-3x"></span>
+      </button>
+
+      <button class="orbit-next">
+        <span class="show-for-sr">Next Slide</span>
+        <span class="nav fa fa-chevron-right fa-3x"></span>
+      </button>
+        {% if image %}
+            {% for img in image %}
+      <li class="is-active orbit-slide">
+        <img class="orbit-image" src="{{ img.image.url }}" alt="photo">
+        <figcaption class="orbit-caption">
+          <h1></h1>
+        </figcaption>
+      </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+  </div>
+  </div>
+    <div class="descip" style="padding:20px;">
+<h1 style=" font-family:'Merriweather', serif; font-size: 30px; color: red; font-weight: bold">{{ prop.name }} Ksh  {{ prop.price }}</h1>
+
+<h1 style="font-family:'Merriweather', serif; font-size: 20px; color: darkblue">Description</h1>
+<p  style="font-family:'Lato', serif; font-size: 16px; color: black">
+{{ prop.details }}
+</p>
+
+
+
+    </div>
+
+</div>
+<div class="cell large-4">
+
+    <br>
+<div class="props"  style="padding: 30px">
+
+<h1 style="padding:20px; font-family:'Merriweather', serif; font-size: 20px; color: darkblue;" >Key Features</h1>
+
+<pre style=" font-family:'Lato', serif; font-size: 16px; color: black;white-space: pre-wrap;word-wrap: break-word; text-align: justify">
+{{ prop.key_features}}
+</pre>
+
+<h1 style="padding:20px; font-family:'Merriweather', serif; font-size: 20px; color: darkblue">Amenities</h1>
+<pre style=" font-family:'Lato', serif; font-size: 16px; color: black;white-space: pre-wrap;word-wrap: break-word; text-align: justify">
+{{ prop.amenities }}
+
+</pre>
+<br>
+</div>
+    <div class="card profile-card-action-icons2">
+  <div class="card-section">
+    <div class="profile-card-header">
+      <div class="profile-card-avatar">
+          {% if prop.agent.profile.picture %}
+        <img class="avatar-image" src="{{ prop.agent.profile.picture.url }}" alt="agent-pic">
+          {% endif %}
+      </div>
+      <div class="profile-card-author">
+        <h5 class="author-title">{{ prop.agent.get_full_name }}</h5>
+        <p class="author-description">{{ prop.agent.profile.company }}</p>
+      </div>
+    </div>
+    <div class="profile-card-about">
+      <h5 class="about-title separator-left">About Agent</h5>
+      <p class="about-content">
+        {{ prop.agent.profile.description }}
+      </p>
+
+
+      </div>
+    </div>
+  </div>
+
+    <p>
+    <a href="tel:{{ prop.agent.profile.number }}" class= " button large ">Call Agent <i class="fa fa-phone " style="color:#002C3E" aria-hidden="true"></i> </a>
+       </p>
+
+
+
+
+</div>
+
+</div>
+
+</div>
+
+    <div class="content">
+<div class="wording">
+
+<h1 style=" margin-left:25px; font-family:'Merriweather', bold; font-size: 25px; color: black; font-weight: bold">Similar Homes You Will Love</h1>
+</div>
+
+<div class="responsive">
+    {% for prop in similar_props %}
+<div class="card-flex-article card flex-container">
+ <a href="{{prop.get_absolute_url}}">
+  <div class="card-image">
+    <img src="{{prop.picture.url}}">
+    {% if prop.sponsored == True %}
+
+    <span class="label alert card-tag">Top Ad</span>
+    {% endif %}
+  </div>
+  <div class="card-section">
+      <h3 class="article-title" style="color: black">$ {{prop.price}}</h3>
+    <p class="article-tit" style="font-family: 'Merriweather', serif ;font-size: 16px; color: dimgray">{{prop.name}}</p>
+    <div class="article-details">
+
+
+      <span class="website">{{ prop.bedrooms }}  bd<i class="fa fa-bed " style="color:#002C3E" aria-hidden="true"></i></span> &#8226;
+     <span class="author">{{ prop.bathrooms }} ba <i class="fa fa-bath " style="color:#002C3E" aria-hidden="true"></i> </span> &#8226;
+      <span class="author">{{ prop.size }} sqfts </span>
+
+    </div>
+    <p class="article-summary" style="font-family: Merriweather; color: darkgrey">{{ prop.county }}</p>
+  </div>
+ </a>
+  </div>
+    {% endfor %}
+
+    </div>
+    </div>
+    <footer class="social-footer show-for-small-only">
+  <div class="social-footer-left" style="margin-left:50px ">
+     <a href="tel:{{ prop.agent.profile.number }}" class= " button ">Call Agent <i class="fa fa-phone " style="color:#002C3E" aria-hidden="true"></i> </a>
+
+  </div>
+
+</footer>
+{% endblock %}
+
+

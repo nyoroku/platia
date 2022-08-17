@@ -1,0 +1,10 @@
+{% extends 'tour/main.html' %}
+{% load staticfiles %}
+{% block title_block %}
+ Message to Agent
+ {% endblock %}
+{% block body_block %}
+    <h5 class="center">Thank you {{ message.name }}</h5>
+<p class="center">Your message has been successfully sent.The Agent will get back to you
+</p>
+{% endblock %}

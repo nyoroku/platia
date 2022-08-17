@@ -1,0 +1,39 @@
+<div class="grid-container">
+<div class="card profile-card-action-icons">
+  <div class="card-section">
+    <div class="profile-card-header">
+      <div class="profile-card-avatar">
+          {% if profile.picture %}
+        <img class="avatar-image" src="{{ profile.picture.url }}" alt="profile picture">
+          {% endif %}
+      </div>
+    <br>
+      <div class="profile-card-author">
+       <h5 class="author-title"><a href="{% url 'finders:edit' %}"><button type="button" class="button hollow topbar-responsive-button">
+           Edit Profile</button></a></h5>
+        <p class="author-description">Username: {{ profile.user.username|capfirst }}</p>
+
+
+          <p class="author-description">Email: {{ profile.user.email }}</p>
+          <p class="author-description">Number: {{ profile.number }}</p>
+          <p class="author-description">Company: {{ profile.company }}</p>
+        <p class="author-description">Country Logo:</p>
+          <div class="profile-card-avatar">
+          {% if profile.logo %}
+        <img class="avatar-image" src="{{ profile.logo.url }}" alt="profile picture">
+          {% endif %}
+      </div>
+
+      </div>
+    </div>
+    <div class="profile-card-about">
+
+      <h5 class="about-title separator-left">Description:</h5>
+      <p class="about-content">
+        {{ profile.description }}
+      </p>
+
+    </div>
+  </div>
+</div>
+        </div>
